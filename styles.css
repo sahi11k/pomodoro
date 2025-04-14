@@ -1,0 +1,52 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --text-color: #fff;
+}
+
+.container {
+  background: url(./assets/background.jpg) center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.layout {
+  width: 70%;
+  height: 80%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-areas:
+    "work progress"
+    "work timer"
+    "work timer"
+    "work timer";
+  gap: 1.5rem;
+}
+
+.task-list {
+  grid-area: work;
+}
+
+.daily-progress {
+  grid-area: progress;
+}
+
+.timer {
+  grid-area: timer;
+}
+
+.card {
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 1rem;
+  padding: 1rem;
+}
