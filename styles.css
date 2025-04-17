@@ -1,3 +1,7 @@
+:root {
+  --primary-text-color: #fff;
+}
+
 html,
 body {
   margin: 0;
@@ -6,10 +10,8 @@ body {
 
 * {
   box-sizing: border-box;
-}
-
-:root {
-  --text-color: #fff;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: var(--primary-text-color);
 }
 
 .container {
@@ -31,22 +33,50 @@ body {
     "work timer"
     "work timer";
   gap: 1.5rem;
+  grid-template-columns: 1fr 1fr;
 }
 
-.task-list {
+.task-list-container {
   grid-area: work;
 }
 
-.daily-progress {
+.daily-progress-container {
   grid-area: progress;
 }
 
-.timer {
+.timer-container {
   grid-area: timer;
 }
 
 .card {
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px;
+  gap: 12px;
+}
+
+.card-header {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.card-body {
+  font-size: 1rem;
+  flex: 1;
+}
+
+.task-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid blue;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid red;
 }

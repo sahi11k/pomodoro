@@ -8,10 +8,51 @@
   <body>
     <div class="container">
       <div class="layout">
-        <div class="card daily-progress"></div>
-        <div class="card timer"></div>
-        <div class="card task-list"></div>
+        <div class="card daily-progress-container">
+          <div class="card-header">Daily Progress</div>
+          <div class="card-body">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+          </div>
+        </div>
+        <div class="card timer-container">
+          <div class="card-body">
+            <div class="activity-header">Ongoing | Break</div>
+            <div class="timer-display">25:00</div>
+            <div class="current-task">
+              <div class="task-name">Task Name</div>
+              <div class="task-description">Task Description</div>
+            </div>
+            <div class="timer-controls">
+              <button class="timer-button">Start</button>
+            </div>
+          </div>
+        </div>
+        <div class="card task-list-container">
+          <div class="card-header">Task List</div>
+          <div class="card-body">
+            <ul id="task-list" class="task-list">
+              <template id="task-item-template"> </template>
+              <li class="task-item">
+                <div class="task-status-toggle">C</div>
+                <div class="task-category">
+                  <div class="task-category-icon">I</div>
+                </div>
+                <div class="task-details">
+                  <div class="task-name">Pomodoro</div>
+                  <div class="task-status-wrapper">
+                    <div class="task-status"></div>
+                    <div class="task-completion-time">25:00</div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <button class="add-task-button">Add Task</button>
+          </div>
+        </div>
       </div>
     </div>
+    <script type="module" src="./script.js"></script>
   </body>
 </html>
