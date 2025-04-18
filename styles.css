@@ -34,6 +34,11 @@ body {
     "work timer";
   gap: 1.5rem;
   grid-template-columns: 1fr 1fr;
+
+  & > * {
+    min-height: 0;
+    min-width: 0;
+  }
 }
 
 .task-list-container {
@@ -54,29 +59,69 @@ body {
   display: flex;
   flex-direction: column;
   padding: 16px 20px;
-  gap: 12px;
 }
 
 .card-header {
-  font-size: 1rem;
+  /* font-size: 1rem; */
   font-weight: 600;
+  padding: 4px 0 12px 0;
 }
 
 .card-body {
   font-size: 1rem;
   flex: 1;
+  min-height: 0;
 }
 
 .task-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  border: 1px solid blue;
+  overflow: auto;
+  height: 100%;
 }
 
 .task-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  border: 1px solid red;
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+
+  .task-status-toggle {
+    flex: 1;
+  }
+
+  .task-category {
+    flex: 1;
+  }
+
+  .task-details {
+    flex: 6;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .task-status-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
+
+.card-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #ccc;
+  padding: 12px 0 4px 0;
+}
+
+.add-task-button {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--primary-text-color);
 }

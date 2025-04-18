@@ -31,24 +31,28 @@
           <div class="card-header">Task List</div>
           <div class="card-body">
             <ul id="task-list" class="task-list">
-              <template id="task-item-template"> </template>
-              <li class="task-item">
-                <div class="task-status-toggle">C</div>
-                <div class="task-category">
-                  <div class="task-category-icon">I</div>
-                </div>
-                <div class="task-details">
-                  <div class="task-name">Pomodoro</div>
-                  <div class="task-status-wrapper">
-                    <div class="task-status"></div>
-                    <div class="task-completion-time">25:00</div>
+              <template id="task-item-template">
+                <li class="task-item">
+                  <div class="task-status-toggle">C</div>
+                  <div class="task-category">
+                    <div class="task-category-icon">I</div>
                   </div>
-                </div>
-              </li>
+                  <div class="task-details">
+                    <div class="task-name">Pomodoro</div>
+                    <div class="task-status-wrapper">
+                      <div class="task-status">Sessions 1/2</div>
+                      <div class="task-completion-time">25:00</div>
+                    </div>
+                  </div>
+                </li>
+              </template>
             </ul>
           </div>
           <div class="card-footer">
-            <button class="add-task-button">Add Task</button>
+            <button class="add-task-button">
+              <span class="btn-icon">+</span>
+              Add Task
+            </button>
           </div>
         </div>
       </div>
