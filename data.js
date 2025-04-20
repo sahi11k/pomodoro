@@ -96,3 +96,26 @@ export const tasks = [
     sessions: 1,
   },
 ];
+
+export const categories = [
+  {
+    id: 1,
+    name: "Work",
+  },
+  {
+    id: 2,
+    name: "Play",
+  },
+  {
+    id: 3,
+    name: "Study",
+  },
+  {
+    id: 4,
+    name: "Learn",
+  },
+  {
+    id: 5,
+    name: "Others",
+  },
+];

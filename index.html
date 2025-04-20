@@ -56,6 +56,50 @@
           </div>
         </div>
       </div>
+      <dialog id="add-task-dialog" open>
+        <div class="modal-body">
+          <form>
+            <div class="input-task-name">
+              <input
+                type="text"
+                name="task-name"
+                id="task-name"
+                placeholder="Write what you're going to do..."
+              />
+            </div>
+            <div class="input-task-category">
+              <label for="task-category">Select Category</label>
+              <div class="task-categories">
+                <div class="task-category">
+                  <div class="task-category-icon">I</div>
+                  <div class="task-category-name">Work</div>
+                </div>
+              </div>
+            </div>
+            <div class="input-task-total-sessions">
+              <label for="total-sessions">Total Sessions</label>
+              <div class="total-sessions-controls">
+                <button>-</button>
+                <span class="session-count">1</span>
+                <button>+</button>
+              </div>
+            </div>
+            <div class="input-task-description">
+              <textarea
+                aria-label="task-description"
+                name="task-description"
+                id="task-description"
+                rows="3"
+                placeholder="Write more details about the task..."
+              ></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-button">Cancel</button>
+          <button class="modal-button primary">Add Task</button>
+        </div>
+      </dialog>
     </div>
     <script type="module" src="./script.js"></script>
   </body>
