@@ -1,10 +1,12 @@
+import { initTaskModal } from "./addTaskModal.js";
 import { tasks } from "./data.js";
-import { renderTasks } from "./taskList.js";
+import { renderTaskList } from "./taskList.js";
 
 const $taskList = document.querySelector("#task-list");
 
 function init() {
-  renderTasks($taskList, tasks);
+  renderTaskList($taskList, tasks);
+  initTaskModal();
 }
 
 init();

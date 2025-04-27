@@ -30,61 +30,42 @@
         <div class="card task-list-container">
           <div class="card-header">Task List</div>
           <div class="card-body">
-            <ul id="task-list" class="task-list">
-              <template id="task-item-template">
-                <li class="task-item">
-                  <div class="task-status-toggle">C</div>
-                  <div class="task-category">
-                    <div class="task-category-icon">I</div>
-                  </div>
-                  <div class="task-details">
-                    <div class="task-name">Pomodoro</div>
-                    <div class="task-status-wrapper">
-                      <div class="task-status">Sessions 1/2</div>
-                      <div class="task-completion-time">25:00</div>
-                    </div>
-                  </div>
-                </li>
-              </template>
-            </ul>
+            <ul id="task-list" class="task-list"></ul>
           </div>
           <div class="card-footer">
-            <button class="add-task-button">
-              <span class="btn-icon">+</span>
+            <button class="add-task-button" id="add-task-modal-handler">
+              <span class="btn-icon">&#43;</span>
               Add Task
             </button>
           </div>
         </div>
       </div>
-      <dialog id="add-task-dialog" open>
+      <div class="modal-overlay"></div>
+      <dialog id="add-task-modal" class="modal">
         <div class="modal-body">
-          <form>
-            <div class="input-task-name">
+          <form id="add-task-form">
+            <div class="form-item__input">
               <input
                 type="text"
                 name="task-name"
                 id="task-name"
                 placeholder="Write what you're going to do..."
+                aria-label="task-name"
               />
             </div>
-            <div class="input-task-category">
+            <div class="form-item__category">
               <label for="task-category">Select Category</label>
-              <div class="task-categories">
-                <div class="task-category">
-                  <div class="task-category-icon">I</div>
-                  <div class="task-category-name">Work</div>
-                </div>
-              </div>
+              <div class="form-item__category--list"></div>
             </div>
-            <div class="input-task-total-sessions">
-              <label for="total-sessions">Total Sessions</label>
-              <div class="total-sessions-controls">
-                <button>-</button>
+            <div class="form-item__sessions">
+              <label for="sessions">Total Sessions</label>
+              <div class="form-item__sessions--controls">
+                <button id="decrement-session">&#x2012;</button>
                 <span class="session-count">1</span>
-                <button>+</button>
+                <button id="increment-session">&#43;</button>
               </div>
             </div>
-            <div class="input-task-description">
+            <div class="form-item__description">
               <textarea
                 aria-label="task-description"
                 name="task-description"
@@ -96,8 +77,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button class="modal-button">Cancel</button>
-          <button class="modal-button primary">Add Task</button>
+          <button class="modal-button modal-button__cancel">Cancel</button>
+          <button class="modal-button modal-button__primary">Add Task</button>
         </div>
       </dialog>
     </div>
