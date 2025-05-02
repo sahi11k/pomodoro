@@ -175,9 +175,9 @@ button {
 
         .daily-progress-pending--label {
           background-color: var(--blue);
-          padding: 4px 12px;
+          padding: 2px 8px;
           border-radius: 16px;
-          font-size: 1rem;
+          font-size: 14px;
           font-weight: 600;
         }
       }
@@ -189,11 +189,11 @@ button {
 
     .daily-progress-widget {
       .daily-progress-percent {
-        height: 105px;
-        width: 105px;
+        height: 100px;
+        width: 100px;
         border-radius: 100%;
         box-sizing: border-box;
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: rgba(0, 0, 0, 0.4);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -207,6 +207,56 @@ button {
 .timer-container {
   grid-column: 2 / 3;
   grid-row: 2 / 5;
+
+  .timer-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 12px;
+
+    .activity-header {
+      border: 1px solid red;
+      padding: 12px 0;
+    }
+
+    .timer-display {
+      border: 1px solid blue;
+      align-items: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+
+      .timer-display-time {
+        font-size: 8rem;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .timer-display-progress-bar {
+        background-color: var(--green);
+        height: 10px;
+        width: 80%;
+        border-radius: 20px;
+      }
+    }
+
+    .current-task {
+      border: 1px solid green;
+      padding: 12px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .timer-controls {
+      border: 1px solid green;
+      padding: 12px 0;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+  }
 }
 
 .card {
