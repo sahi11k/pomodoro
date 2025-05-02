@@ -9,9 +9,24 @@
     <div class="container">
       <div class="layout">
         <div class="card daily-progress-container">
-          <div class="card-header">Daily Progress</div>
           <div class="card-body">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+            <div class="daily-progress-wrapper">
+              <div class="daily-progress-counter">
+                <div class="daily-progress-card-label">Daily Progress</div>
+                <div class="daily-progress-pending">
+                  <span class="daily-progress-pending--label">
+                    <span class="tasks-done">3</span>
+                    <span class="tasks-count-separator">/</span>
+                    <span class="total-tasks">4</span>
+                  </span>
+                  <span>Tasks were done</span>
+                </div>
+                <div class="current-time">Wed, 02 May 2025 - 10:10 PM</div>
+              </div>
+              <div class="daily-progress-widget">
+                <div class="daily-progress-percent">38%</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="card timer-container">
@@ -44,7 +59,7 @@
       <dialog id="add-task-modal" class="modal">
         <div class="modal-body">
           <form id="add-task-form">
-            <div class="form-item__input">
+            <div class="form-item__name">
               <input
                 type="text"
                 name="task-name"
@@ -60,9 +75,9 @@
             <div class="form-item__sessions">
               <label for="sessions">Total Sessions</label>
               <div class="form-item__sessions--controls">
-                <button id="decrement-session">&#x2012;</button>
+                <button id="decrement-session" type="button">&#x2012;</button>
                 <span class="session-count">1</span>
-                <button id="increment-session">&#43;</button>
+                <button id="increment-session" type="button">&#43;</button>
               </div>
             </div>
             <div class="form-item__description">

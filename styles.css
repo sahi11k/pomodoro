@@ -35,13 +35,9 @@ button {
   height: 80%;
   margin: 0 auto;
   display: grid;
-  grid-template-areas:
-    "work progress"
-    "work timer"
-    "work timer"
-    "work timer";
   gap: 1.5rem;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(4, 1fr);
 
   & > * {
     min-height: 0;
@@ -50,15 +46,167 @@ button {
 }
 
 .task-list-container {
-  grid-area: work;
+  grid-column: 1 / 2;
+  grid-row: 1 / 5;
+  .add-task-button {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: var(--primary-text-color);
+
+    &:hover {
+      color: var(--light-grey);
+    }
+  }
+
+  .task-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    height: 100%;
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-sizing: border-box;
+      padding: 12px 8px 12px 0;
+      border-bottom: 1px solid var(--grey-tertiary);
+
+      &:first-of-type {
+        padding-top: 0;
+      }
+
+      .task-item__status {
+        .task-item__status--toggle-btn {
+          background-color: white;
+          border-radius: 100%;
+          cursor: pointer;
+
+          &:hover {
+            background-color: var(--light-grey);
+          }
+
+          &.active {
+            background-color: var(--green);
+          }
+        }
+      }
+
+      .task-item__category {
+        font-size: 1.75rem;
+        text-align: center;
+        padding-bottom: 6px;
+      }
+
+      .task-item__details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+
+        .task-item__details--name {
+          font-size: 1.2rem;
+          font-weight: 600;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
+        }
+
+        .task-item__details--progress-wrapper {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .task-item__details--sessions {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: var(--light-grey);
+        }
+
+        .task-item__details--completion-time {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: var(--light-grey);
+        }
+      }
+
+      .task-item__actions {
+        .task-item__actions--more-btn {
+          cursor: pointer;
+          fill: var(--light-grey);
+
+          &:hover {
+            fill: var(--white);
+          }
+        }
+      }
+    }
+  }
 }
 
 .daily-progress-container {
-  grid-area: progress;
+  grid-column: 2 / 3;
+
+  .daily-progress-wrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    .daily-progress-counter {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: center;
+
+      .daily-progress-card-label {
+        font-weight: 600;
+      }
+
+      .daily-progress-pending {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+
+        .daily-progress-pending--label {
+          background-color: var(--blue);
+          padding: 4px 12px;
+          border-radius: 16px;
+          font-size: 1rem;
+          font-weight: 600;
+        }
+      }
+
+      .current-time {
+        color: var(--light-grey);
+      }
+    }
+
+    .daily-progress-widget {
+      .daily-progress-percent {
+        height: 105px;
+        width: 105px;
+        border-radius: 100%;
+        box-sizing: border-box;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+    }
+  }
 }
 
 .timer-container {
-  grid-area: timer;
+  grid-column: 2 / 3;
+  grid-row: 2 / 5;
 }
 
 .card {
@@ -67,113 +215,24 @@ button {
   display: flex;
   flex-direction: column;
   padding: 16px 20px;
-}
 
-.card-header {
-  font-weight: 600;
-  padding: 4px 0 12px 0;
-}
-
-.card-body {
-  font-size: 1rem;
-  flex: 1;
-  min-height: 0;
-}
-
-.task-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  overflow: auto;
-  height: 100%;
-
-  .task-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    box-sizing: border-box;
-    padding: 12px 8px 12px 0;
-    border-bottom: 1px solid var(--grey-tertiary);
-
-    &:first-of-type {
-      padding-top: 0;
-    }
-
-    .task-item__status {
-      .task-item__status--toggle-btn {
-        background-color: white;
-        border-radius: 100%;
-        cursor: pointer;
-
-        &:hover {
-          background-color: var(--light-grey);
-        }
-
-        &.active {
-          background-color: var(--green);
-        }
-      }
-    }
-
-    .task-item__category {
-      font-size: 1.75rem;
-      text-align: center;
-      padding-bottom: 6px;
-    }
-
-    .task-item__details {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-
-      .task-item__details--name {
-        font-size: 1.2rem;
-        font-weight: 600;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
-      }
-
-      .task-item__details--progress-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .task-item__details--sessions {
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--light-grey);
-      }
-
-      .task-item__details--completion-time {
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--light-grey);
-      }
-    }
+  .card-header {
+    font-weight: 600;
+    padding: 4px 0 12px 0;
   }
-}
 
-.card-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-top: 1px solid var(--grey-tertiary);
-  padding: 12px 0 4px 0;
-}
+  .card-body {
+    font-size: 1rem;
+    flex: 1;
+    min-height: 0;
+  }
 
-.add-task-button {
-  border: none;
-  outline: none;
-  background-color: transparent;
-  cursor: pointer;
-  color: var(--primary-text-color);
-
-  &:hover {
-    color: var(--light-grey);
+  .card-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid var(--grey-tertiary);
+    padding: 12px 0 4px 0;
   }
 }
 
@@ -215,7 +274,7 @@ button {
       font-size: 0.8rem;
     }
 
-    .form-item__input > input {
+    .form-item__name > input {
       border: none;
       font-weight: 600;
       font-size: 1rem;
@@ -267,7 +326,7 @@ button {
             background-color: var(--grey-tertiary);
           }
 
-          &.active {
+          &.form-item__category--item--active {
             border: 2px solid var(--green);
           }
         }
@@ -305,6 +364,12 @@ button {
           }
         }
       }
+    }
+
+    .error {
+      color: var(--red);
+      font-size: 0.8rem;
+      margin-top: 2px;
     }
   }
 
