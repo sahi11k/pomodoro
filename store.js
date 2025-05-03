@@ -6,7 +6,7 @@ export default {
       description: "Description 1",
       category: "work",
       sessions: 1,
-      completed: false,
+      completed: true,
     },
     {
       id: 2,
