@@ -29,8 +29,20 @@
           <div class="card-body">
             <div class="timer-content">
               <div class="activity-header">
-                <button>Ongoing</button>
-                <button>Break</button>
+                <div class="activity-header-tabs">
+                  <button
+                    class="activity-btn activity-btn--ongoing"
+                    data-tab="ongoing"
+                  >
+                    Ongoing
+                  </button>
+                  <button
+                    class="activity-btn activity-btn--break"
+                    data-tab="break"
+                  >
+                    Break
+                  </button>
+                </div>
               </div>
               <div class="timer-display">
                 <div class="timer-display-time">25:00</div>
@@ -38,9 +50,13 @@
               </div>
               <div class="current-task">Current Task</div>
               <div class="timer-controls">
-                <button class="timer-button">Reset</button>
-                <button class="timer-button">Start</button>
-                <button class="timer-button">Next</button>
+                <button class="timer-button timer-button--reset circle">
+                  R
+                </button>
+                <button class="timer-button timer-button--start">Start</button>
+                <button class="timer-button timer-button--next circle">
+                  N
+                </button>
               </div>
             </div>
           </div>

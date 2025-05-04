@@ -8,6 +8,7 @@
   --red: #ff6054;
   --blue: #297afe;
   --purple: #725dff;
+  --dark-blue: #090c12;
   --border-radius: 12px;
 }
 
@@ -227,46 +228,117 @@ button {
     gap: 12px;
 
     .activity-header {
-      border: 1px solid red;
-      padding: 12px 0;
+      .activity-header-tabs {
+        display: flex;
+        border-radius: 32px;
+        backdrop-filter: blur(10px);
+        background-color: rgba(9, 12, 18, 0.25);
+
+        .activity-btn {
+          padding: 16px 0;
+          flex: 1;
+          border-radius: 32px;
+          background-color: transparent;
+          cursor: pointer;
+          outline: none;
+          border: none;
+          font-size: 1rem;
+          font-weight: 600;
+
+          &:hover {
+            opacity: 0.5;
+          }
+
+          &.active {
+            background-color: rgba(9, 12, 18, 0.75);
+
+            &:hover {
+              opacity: 1;
+            }
+          }
+        }
+      }
     }
 
     .timer-display {
-      border: 1px solid blue;
       align-items: center;
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 16px;
+      gap: 32px;
 
       .timer-display-time {
         font-size: 8rem;
         font-weight: 600;
         text-align: center;
+        font-family: monospace;
       }
 
       .timer-display-progress-bar {
-        background-color: var(--green);
+        --progress: 10;
+
         height: 10px;
         width: 80%;
         border-radius: 20px;
+        background-color: rgba(9, 12, 18, 0.5);
+        position: relative;
+
+        &::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          width: calc(var(--progress) * 1%);
+          height: 100%;
+          background-color: var(--green);
+          border-radius: 20px;
+        }
       }
     }
 
     .current-task {
-      border: 1px solid green;
-      padding: 12px 0;
+      padding: 12px 6px;
       display: flex;
       justify-content: center;
+      background-color: rgba(9, 12, 18, 0.5);
     }
 
     .timer-controls {
-      border: 1px solid green;
       padding: 12px 0;
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 24px;
+
+      .timer-button {
+        border: none;
+        outline: none;
+        background-color: transparent;
+        cursor: pointer;
+        padding: 12px;
+        font-size: 1.1rem;
+      }
+
+      .timer-button--start {
+        background-color: var(--green);
+        padding: 12px 24px;
+        border-radius: 24px;
+        min-width: 100px;
+      }
+
+      .timer-button--next {
+        background-color: var(--blue);
+      }
+
+      .timer-button--reset {
+        background-color: var(--red);
+      }
+
+      .circle {
+        border-radius: 100%;
+        width: 48px;
+        height: 48px;
+        background-color: rgba(9, 12, 18, 0.5);
+      }
     }
   }
 }
@@ -277,6 +349,8 @@ button {
   display: flex;
   flex-direction: column;
   padding: 16px 20px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 
   .card-header {
     font-weight: 600;
