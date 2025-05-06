@@ -6,70 +6,104 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="container">
-      <div class="layout">
-        <div class="card daily-progress-container">
-          <div class="card-header">Daily Progress</div>
-          <div class="card-body">
-            <div class="daily-progress-wrapper">
-              <div class="daily-progress-counter">
-                <div class="daily-progress-pending">
-                  <span class="daily-progress-pending--label"> 3/4 </span>
-                  <span>Tasks were done</span>
-                </div>
-                <div class="current-time">Wed, 02 May 2025 - 10:10 PM</div>
+    <div class="app">
+      <div class="app__layout">
+        <div class="card card--daily-progress">
+          <div class="card__header">Daily Progress</div>
+          <div class="card__body daily-progress-content">
+            <div class="daily-progress-counter">
+              <div class="daily-progress-pending">
+                <span class="daily-progress-pending__label"> 0/0 </span>
+                <span>Tasks were done</span>
               </div>
-              <div class="daily-progress-widget">
-                <div class="daily-progress-percent">38%</div>
-              </div>
+              <div class="current-time">DDD, DD MMMM YYYY - HH:MM</div>
+            </div>
+            <div class="daily-progress__widget">
+              <div class="daily-progress__widget__value">0%</div>
             </div>
           </div>
         </div>
-        <div class="card timer-container">
-          <div class="card-body">
-            <div class="timer-content">
-              <div class="activity-header">
-                <div class="activity-header-tabs">
-                  <button
-                    class="activity-btn activity-btn--ongoing"
-                    data-tab="ongoing"
-                  >
-                    Ongoing
-                  </button>
-                  <button
-                    class="activity-btn activity-btn--break"
-                    data-tab="break"
-                  >
-                    Break
-                  </button>
-                </div>
+        <div class="card card--timer">
+          <div class="card__header">
+            <div class="activity-header">
+              <div class="activity-header-tabs">
+                <button
+                  class="activity-btn activity-btn--ongoing"
+                  data-tab="ongoing"
+                >
+                  Ongoing
+                </button>
+                <button
+                  class="activity-btn activity-btn--break"
+                  data-tab="break"
+                >
+                  Break
+                </button>
               </div>
+            </div>
+          </div>
+          <div class="card__body">
+            <div class="timer-content">
               <div class="timer-display">
                 <div class="timer-display-time">25:00</div>
                 <div class="timer-display-progress-bar"></div>
               </div>
               <div class="current-task">Current Task</div>
-              <div class="timer-controls">
-                <button class="timer-button timer-button--reset circle">
-                  R
-                </button>
-                <button class="timer-button timer-button--start">Start</button>
-                <button class="timer-button timer-button--next circle">
-                  N
-                </button>
-              </div>
+            </div>
+          </div>
+          <div class="card__footer">
+            <div class="timer-controls">
+              <button class="timer-button timer-button--reset circle">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#e8eaed"
+                >
+                  <path
+                    d="M204-318q-22-38-33-78t-11-82q0-134 93-228t227-94h7l-64-64 56-56 160 160-160 160-56-56 64-64h-7q-100 0-170 70.5T240-478q0 26 6 51t18 49l-60 60ZM481-40 321-200l160-160 56 56-64 64h7q100 0 170-70.5T720-482q0-26-6-51t-18-49l60-60q22 38 33 78t11 82q0 134-93 228t-227 94h-7l64 64-56 56Z"
+                  />
+                </svg>
+              </button>
+              <button class="timer-button timer-button--start">Start</button>
+              <button class="timer-button timer-button--next circle">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#e8eaed"
+                >
+                  <path
+                    d="M660-240v-480h80v480h-80Zm-440 0v-480l360 240-360 240Z"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
-        <div class="card task-list-container">
-          <div class="card-header">Task List</div>
-          <div class="card-body">
+        <div class="card card--task-list">
+          <div class="card__header">Task List</div>
+          <div class="card__body">
             <ul id="task-list" class="task-list"></ul>
           </div>
-          <div class="card-footer">
-            <button class="add-task-button" id="add-task-modal-handler">
-              <span class="btn-icon">&#43;</span>
-              Add Task
+          <div class="card__footer">
+            <button class="btn add-task-btn" id="add-task-modal-handler">
+              <span class="btn__icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#e8eaed"
+                >
+                  <path
+                    d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"
+                  />
+                </svg>
+              </span>
+              <span class="btn__label">Add Task</span>
             </button>
           </div>
         </div>

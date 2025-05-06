@@ -1,7 +1,7 @@
-import { MAX_SESSIONS, MIN_SESSIONS, taskCategories } from "./data.js";
+import { MAX_SESSIONS, MIN_SESSIONS, taskCategories } from "./constants.js";
 import store from "./store.js";
 import { getTemplate } from "./utils.js";
-import { renderTaskList } from "./taskList.js";
+import { renderTaskList } from "./tasks.js";
 const taskTemplate = `<div class="form-item__category--item" ><div class="form-item__category--item-icon"></div><div class="form-item__category--item-name"></div></div>`;
 
 const $modal = document.querySelector("#add-task-modal");

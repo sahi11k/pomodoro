@@ -1,29 +1,44 @@
-export function initDailyProgress(tasks = []) {
-  const $dailyProgressWidget = document.querySelector(".daily-progress-widget");
+export function initDailyProgress(store) {
+  const tasks = store.getTasks();
+
+  const totalCount = tasks.length;
+  const completedCount = getCompletedTasksCount(tasks);
+
+  updateTaskCompletionLabel({ completedCount, totalCount });
+  updateProgress({ completedCount, totalCount });
+  setCurrentDay();
+}
+
+function updateTaskCompletionLabel({ completedCount, totalCount }) {
   const $taskCompletionLabel = document.querySelector(
-    ".daily-progress-pending--label"
+    ".daily-progress-pending__label"
   );
-  const $taskCompletionPercentageEl = document.querySelector(
-    ".daily-progress-percent"
-  );
+  $taskCompletionLabel.textContent = `${completedCount}/${totalCount}`;
+}
 
+function setCurrentDay() {
   const $currentDayEl = document.querySelector(".current-time");
-
-  window.setInterval(() => {
+  const updateCurrentDay = () => {
     $currentDayEl.textContent = getFormattedTime();
-  }, 1000);
+  };
+  window.setInterval(updateCurrentDay, 1000);
+  updateCurrentDay();
+}
 
-  const totalTasks = tasks.length;
-  const completedTasks = getCompletedTasksCount(tasks);
-  const completedTasksPercentage = (completedTasks / totalTasks) * 100;
+function updateProgress({ completedCount, totalCount }) {
+  const $progressWidget = document.querySelector(".daily-progress__widget");
+  const $progressValue = document.querySelector(
+    ".daily-progress__widget__value"
+  );
 
-  $taskCompletionLabel.textContent = `${completedTasks}/${totalTasks}`;
-  $taskCompletionPercentageEl.textContent = `${completedTasksPercentage}%`;
-  $currentDayEl.textContent = getFormattedTime();
+  const completedTasksPercentage = (completedCount / totalCount) * 100;
+
+  $progressValue.textContent = `${completedTasksPercentage}%`;
 
   const angle = (completedTasksPercentage / 100) * 360;
-  $dailyProgressWidget.style.setProperty("--progress", `${angle}deg`);
+  $progressWidget.style.setProperty("--progress", `${angle}deg`);
 }
+
 function getCompletedTasksCount(tasks = []) {
   return tasks.filter((task) => task.completed).length;
 }
