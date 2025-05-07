@@ -11,13 +11,13 @@ export function initDailyProgress(store) {
 
 function updateTaskCompletionLabel({ completedCount, totalCount }) {
   const $taskCompletionLabel = document.querySelector(
-    ".daily-progress-pending__label"
+    ".progress-stats__completion-label"
   );
   $taskCompletionLabel.textContent = `${completedCount}/${totalCount}`;
 }
 
 function setCurrentDay() {
-  const $currentDayEl = document.querySelector(".current-time");
+  const $currentDayEl = document.querySelector(".progress-stats__timestamp");
   const updateCurrentDay = () => {
     $currentDayEl.textContent = getFormattedTime();
   };
@@ -26,10 +26,8 @@ function setCurrentDay() {
 }
 
 function updateProgress({ completedCount, totalCount }) {
-  const $progressWidget = document.querySelector(".daily-progress__widget");
-  const $progressValue = document.querySelector(
-    ".daily-progress__widget__value"
-  );
+  const $progressWidget = document.querySelector(".progress-meter");
+  const $progressValue = document.querySelector(".progress-meter__value");
 
   const completedTasksPercentage = (completedCount / totalCount) * 100;
 

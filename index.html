@@ -10,50 +10,75 @@
       <div class="app__layout">
         <div class="card card--daily-progress">
           <div class="card__header">Daily Progress</div>
-          <div class="card__body daily-progress-content">
-            <div class="daily-progress-counter">
-              <div class="daily-progress-pending">
-                <span class="daily-progress-pending__label"> 0/0 </span>
-                <span>Tasks were done</span>
+          <div class="card__body">
+            <div class="progress-content">
+              <div class="progress-stats">
+                <div class="progress-stats__counter">
+                  <span class="progress-stats__completion-label"> 0/0 </span>
+                  <span>Tasks were done</span>
+                </div>
+                <div class="progress-stats__timestamp">
+                  DDD, DD MMMM YYYY - HH:MM
+                </div>
               </div>
-              <div class="current-time">DDD, DD MMMM YYYY - HH:MM</div>
-            </div>
-            <div class="daily-progress__widget">
-              <div class="daily-progress__widget__value">0%</div>
+              <div class="progress-meter">
+                <div class="progress-meter__value">0%</div>
+              </div>
             </div>
           </div>
         </div>
         <div class="card card--timer">
           <div class="card__header">
-            <div class="activity-header">
-              <div class="activity-header-tabs">
-                <button
-                  class="activity-btn activity-btn--ongoing"
-                  data-tab="ongoing"
-                >
-                  Ongoing
-                </button>
-                <button
-                  class="activity-btn activity-btn--break"
-                  data-tab="break"
-                >
-                  Break
-                </button>
-              </div>
+            <div class="tab-nav">
+              <button class="btn tab-nav__item active" data-tab="ongoing">
+                <span class="btn__icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#e8eaed"
+                  >
+                    <path
+                      d="M360-840v-80h240v80H360Zm80 440h80v-240h-80v240Zm40 320q-74 0-139.5-28.5T226-186q-49-49-77.5-114.5T120-440q0-74 28.5-139.5T226-694q49-49 114.5-77.5T480-800q62 0 119 20t107 58l56-56 56 56-56 56q38 50 58 107t20 119q0 74-28.5 139.5T734-186q-49 49-114.5 77.5T480-80Z"
+                    />
+                  </svg>
+                </span>
+                <span class="btn__label">Ongoing</span>
+              </button>
+              <button class="btn tab-nav__item" data-tab="break">
+                <span class="btn__label">Break</span>
+                <span class="btn__icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#e8eaed"
+                  >
+                    <path
+                      d="M160-120v-80h640v80H160Zm160-160q-66 0-113-47t-47-113v-400h640q33 0 56.5 23.5T880-760v120q0 33-23.5 56.5T800-560h-80v120q0 66-47 113t-113 47H320Zm400-360h80v-120h-80v120Z"
+                    />
+                  </svg>
+                </span>
+              </button>
             </div>
           </div>
           <div class="card__body">
-            <div class="timer-content">
-              <div class="timer-display">
-                <div class="timer-display-time">25:00</div>
-                <div class="timer-display-progress-bar"></div>
+            <div class="tab__panel">
+              <div class="timer">
+                <div class="timer__value">25:00</div>
+                <div class="timer__progress-bar"></div>
               </div>
               <div class="current-task">Current Task</div>
             </div>
           </div>
           <div class="card__footer">
             <div class="timer-controls">
-              <button class="timer-button timer-button--reset circle">
+              <button
+                class="btn btn--icon timer-controls__item"
+                data-action="reset"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="24px"
@@ -66,8 +91,24 @@
                   />
                 </svg>
               </button>
-              <button class="timer-button timer-button--start">Start</button>
-              <button class="timer-button timer-button--next circle">
+              <button class="btn timer-controls__item" data-action="start">
+                <span class="btn__icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#e8eaed"
+                  >
+                    <path d="M320-200v-560l440 280-440 280Z" />
+                  </svg>
+                </span>
+                <span class="btn__label">Start</span>
+              </button>
+              <button
+                class="btn btn--icon timer-controls__item"
+                data-action="next"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="24px"

@@ -97,9 +97,6 @@ export default {
       completed: false,
     },
   ],
-  elements: {
-    $taskList: document.querySelector("#task-list"),
-  },
   getTasks() {
     return this.tasks;
   },

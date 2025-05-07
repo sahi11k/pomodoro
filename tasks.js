@@ -31,22 +31,14 @@ const TASK_ITEM_TEMPLATE = `<li class="task-item">
         </li>`;
 
 const $taskItemTemplate = getTemplate(TASK_ITEM_TEMPLATE);
+const $taskListEl = document.querySelector("#task-list");
 
 export function initTasks(store) {
   const taskItems = store.getTasks();
   renderTaskList(taskItems);
-  attachEventListeners();
-}
-
-function attachEventListeners() {
-  const $taskListEl = store.elements.$taskList;
-  $taskListEl.addEventListener("click", (e) => {
-    console.log(e.target);
-  });
 }
 
 export function renderTaskList(tasks) {
-  const $taskListEl = store.elements.$taskList;
   const taskListFragment = document.createDocumentFragment();
   tasks.forEach((task) => {
     const taskItem = createTaskItem(task);

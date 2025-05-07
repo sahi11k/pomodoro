@@ -1,12 +1,13 @@
-import { initTaskModal } from "./addTaskModal.js";
-import { initDailyProgress } from "./dailyProgress.js";
 import store from "./store.js";
-import { initTasks, renderTaskList } from "./tasks.js";
+import { initDailyProgress } from "./dailyProgress.js";
+import { initTasks } from "./tasks.js";
 import { initTimer } from "./timer.js";
+import { initTaskModal } from "./addTaskModal.js";
 
 function init() {
   initTasks(store);
   initDailyProgress(store);
+  initTimer(store);
 
   // initTaskModal();
 

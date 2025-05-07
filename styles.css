@@ -9,11 +9,11 @@
   --red: #ff6054;
   --blue: #297afe;
   --purple: #725dff;
-  --dark-blue: #090c12;
+  --dark-blue: #10151f;
+  --dark-blue-700: rgba(16, 21, 31, 0.3);
 
   /* Variables */
   --padding: 6px;
-  --blur: 10px;
 }
 
 body {
@@ -24,26 +24,46 @@ body {
 }
 
 .btn {
-  --__svg-fill: var(--svg-fill);
+  --__svg-fill: var(--svg-fill, var(--white));
+  --__text-color: var(--text-color, var(--white));
+  --__font-size: var(--font-size, 1rem);
+  --svg-size: var(--svg-size, 24px);
+  --__background-color: var(--background-color, transparent);
 
-  background-color: transparent;
+  background-color: var(--__background-color);
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   border: none;
   cursor: pointer;
-  color: var(--white);
+  color: var(--__text-color);
+  font-size: var(--__font-size);
 
   .btn__icon {
     svg {
       fill: var(--__svg-fill);
+      width: var(--svg-size);
+      height: var(--svg-size);
     }
   }
 
   .btn__label {
     font-weight: 400;
   }
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+.btn--icon {
+  --__size: var(--size, 24px);
+
+  height: var(--__size);
+  width: var(--__size);
+  border-radius: 100%;
 }
 
 .app {
@@ -75,8 +95,8 @@ body {
   display: flex;
   flex-direction: column;
   padding: calc(var(--padding) * 3);
-  -webkit-backdrop-filter: blur(var(--blur));
-  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 
   .card__header {
     font-weight: 600;
@@ -203,25 +223,24 @@ body {
 
 .add-task-btn {
   --svg-fill: var(--green);
-  &:hover {
-    color: var(--light-grey);
-  }
+  --font-size: 0.9rem;
+  --svg-size: 20px;
 }
 
-.daily-progress-content {
-  .daily-progress-counter {
+.progress-content {
+  .progress-stats {
     height: 100%;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    .daily-progress-pending {
+    .progress-stats__counter {
       display: flex;
       gap: 12px;
       align-items: center;
 
-      .daily-progress-pending__label {
+      .progress-stats__completion-label {
         background-color: var(--blue);
         padding: calc(var(--padding) * 0.5) calc(var(--padding) * 2);
         border-radius: calc(var(--padding) * 3);
@@ -229,14 +248,13 @@ body {
       }
     }
 
-    .current-time {
+    .progress-stats__timestamp {
       color: var(--light-grey);
       font-size: 0.9rem;
-      font-weight: 600;
     }
   }
 
-  .daily-progress__widget {
+  .progress-meter {
     --size: 90px;
     --progress: 0deg;
 
@@ -255,7 +273,7 @@ body {
       var(--dark-blue) 0deg
     );
 
-    .daily-progress__widget__value {
+    .progress-meter__value {
       height: calc(var(--size) - 16px);
       width: calc(var(--size) - 16px);
       border-radius: 50%;
@@ -269,132 +287,100 @@ body {
   }
 }
 
-/* 
-.timer-container {
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
+.tab-nav {
+  display: flex;
+  border-radius: calc(var(--padding) * 6);
+  background-color: var(--dark-blue-700);
 
-  .timer-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    gap: 12px;
+  .tab-nav__item {
+    --svg-fill: var(--light-grey);
+    --text-color: var(--light-grey);
 
-    .activity-header {
-      .activity-header-tabs {
-        display: flex;
-        border-radius: 32px;
-        backdrop-filter: blur(10px);
-        background-color: rgba(9, 12, 18, 0.25);
+    padding: calc(var(--padding) * 3) 0;
+    border-radius: calc(var(--padding) * 6);
+    flex: 1;
+    font-size: 1rem;
 
-        .activity-btn {
-          padding: 16px 0;
-          flex: 1;
-          border-radius: 32px;
-          background-color: transparent;
-          cursor: pointer;
-          outline: none;
-          border: none;
-          font-size: 1rem;
-          font-weight: 600;
+    &.active {
+      --svg-fill: var(--blue);
+      --text-color: var(--white);
+      background-color: var(--dark-blue);
 
-          &:hover {
-            opacity: 0.5;
-          }
-
-          &.active {
-            background-color: rgba(9, 12, 18, 0.75);
-
-            &:hover {
-              opacity: 1;
-            }
-          }
-        }
-      }
-    }
-
-    .timer-display {
-      align-items: center;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 32px;
-
-      .timer-display-time {
-        font-size: 8rem;
-        font-weight: 600;
-        text-align: center;
-        font-family: monospace;
-      }
-
-      .timer-display-progress-bar {
-        --progress: 10;
-
-        height: 10px;
-        width: 80%;
-        border-radius: 20px;
-        background-color: rgba(9, 12, 18, 0.5);
-        position: relative;
-
-        &::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          width: calc(var(--progress) * 1%);
-          height: 100%;
-          background-color: var(--green);
-          border-radius: 20px;
-        }
-      }
-    }
-
-    .current-task {
-      padding: 12px 6px;
-      display: flex;
-      justify-content: center;
-      background-color: rgba(9, 12, 18, 0.5);
-    }
-
-    .timer-controls {
-      padding: 12px 0;
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-
-      .timer-button {
-        border: none;
-        outline: none;
-        background-color: transparent;
-        cursor: pointer;
-        padding: 12px;
-        font-size: 1.1rem;
-      }
-
-      .timer-button--start {
-        background-color: var(--green);
-        padding: 12px 24px;
-        border-radius: 24px;
-        min-width: 100px;
-      }
-
-      .timer-button--next {
-        background-color: var(--blue);
-      }
-
-      .timer-button--reset {
-        background-color: var(--red);
-      }
-
-      .circle {
-        border-radius: 100%;
-        width: 48px;
-        height: 48px;
-        background-color: rgba(9, 12, 18, 0.5);
+      &:hover {
+        opacity: 1;
       }
     }
   }
 }
+
+.tab__panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .timer {
+    align-items: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+
+    .timer__value {
+      font-size: 8rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .timer__progress-bar {
+      --progress: 0;
+
+      width: 80%;
+      height: calc(var(--padding) * 2);
+      border-radius: calc(var(--padding) * 4);
+      background-color: var(--dark-blue);
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        width: calc(var(--progress) * 1%);
+        height: 100%;
+        background-color: var(--green);
+        border-radius: calc(var(--padding) * 4);
+      }
+    }
+  }
+}
+
+.current-task {
+  padding: calc(var(--padding) * 2) calc(var(--padding));
+  display: flex;
+  justify-content: center;
+  background-color: var(--dark-blue-700);
+}
+
+.timer-controls {
+  padding: calc(var(--padding) * 2) 0;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+
+  .btn--icon {
+    --background-color: var(--dark-blue-700);
+    --size: 48px;
+  }
+
+  .btn:not(.btn--icon) {
+    background-color: var(--green);
+    border-radius: 24px;
+    min-width: 120px;
+    height: 48px;
+  }
+}
+
+/* 
 
 .modal-overlay {
   position: fixed;
