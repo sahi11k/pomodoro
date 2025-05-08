@@ -31,7 +31,7 @@ function updateProgress({ completedCount, totalCount }) {
 
   const completedTasksPercentage = (completedCount / totalCount) * 100;
 
-  $progressValue.textContent = `${completedTasksPercentage}%`;
+  $progressValue.textContent = `${Math.round(completedTasksPercentage)}%`;
 
   const angle = (completedTasksPercentage / 100) * 360;
   $progressWidget.style.setProperty("--progress", `${angle}deg`);

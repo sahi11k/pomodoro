@@ -2,11 +2,12 @@ export default {
   tasks: [
     {
       id: 1,
-      name: "Task 1",
+      name: "Task 1 asdfasdfasdfasjfhaskfdhaksfhaksfh  ",
       description: "Description 1",
       category: "work",
       sessions: 1,
-      completed: true,
+      completed: false,
+      completedSessions: 0,
     },
     {
       id: 2,

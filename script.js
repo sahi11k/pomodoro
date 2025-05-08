@@ -8,12 +8,7 @@ function init() {
   initTasks(store);
   initDailyProgress(store);
   initTimer(store);
-
-  // initTaskModal();
-
-  // initTaskModal();
-
-  // initTimer();
+  initTaskModal();
 }
 
 init();

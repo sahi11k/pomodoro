@@ -1,12 +1,16 @@
-import { icons } from "./constants.js";
+import { icons, taskCategoryIcons } from "./constants.js";
 
 let TASK_TIME = 25 * 60;
 let BREAK_TIME = 1 * 60;
 
 let activeTab = "ongoing";
 let duration = TASK_TIME;
+let remainingTime = null;
 let intervalId;
+let timerStarted = false;
+
 const $tabNav = document.querySelector(".tab-nav");
+const $timerStartBtn = document.querySelector('[data-action="start"]');
 
 export function initTimer(store) {
   const tasks = store.getTasks();
@@ -28,10 +32,10 @@ function onTimerControlsClick(e) {
       resetTimer();
       break;
     case "start":
-      startTimer($target);
+      startTimer();
       break;
     case "stop":
-      stopTimer($target);
+      stopTimer();
       break;
     case "next":
       skipTimer();
@@ -41,38 +45,40 @@ function onTimerControlsClick(e) {
   }
 }
 
-function startTimer($target) {
-  let remainingTime = duration;
+function startTimer() {
+  if (!timerStarted) {
+    remainingTime = duration;
+  }
 
   intervalId = setInterval(() => {
     remainingTime--;
     updateTimer(remainingTime);
   }, 1000);
 
-  $target.querySelector(".btn__icon").innerHTML = icons.stop;
-  $target.querySelector(".btn__label").textContent = "Stop";
-  $target.dataset.action = "stop";
+  timerStarted = true;
+  $timerStartBtn.querySelector(".btn__icon").innerHTML = icons.stop;
+  $timerStartBtn.querySelector(".btn__label").textContent = "Stop";
+  $timerStartBtn.dataset.action = "stop";
 }
 
-function stopTimer($target) {
+function stopTimer() {
   clearInterval(intervalId);
-  $target.querySelector(".btn__icon").innerHTML = icons.play;
-  $target.querySelector(".btn__label").textContent = "Start";
-  $target.dataset.action = "start";
+  $timerStartBtn.querySelector(".btn__icon").innerHTML = icons.play;
+  $timerStartBtn.querySelector(".btn__label").textContent = "Start";
+  $timerStartBtn.dataset.action = "start";
 }
 
 function resetTimer() {
-  clearInterval(intervalId);
-  duration = activeTab === "ongoing" ? TASK_TIME : BREAK_TIME;
+  if (!timerStarted) return;
+  stopTimer();
   updateTimer(duration);
+  timerStarted = false;
 }
 
 function skipTimer() {
-  clearInterval(intervalId);
-  activeTab = activeTab === "ongoing" ? "break" : "ongoing";
-  duration = activeTab === "ongoing" ? TASK_TIME : BREAK_TIME;
-  updateTimer(duration);
-  changeActiveTab(activeTab);
+  const inactiveTab = activeTab === "ongoing" ? "break" : "ongoing";
+  const inActiveEl = document.querySelector(`[data-tab="${inactiveTab}"]`);
+  onTabChange({ target: inActiveEl });
 }
 
 function onTabChange(e) {
@@ -122,5 +128,10 @@ function getFormattedTime(seconds) {
 
 function updateCurrentTask(task) {
   const $currentTask = document.querySelector(".current-task");
-  $currentTask.textContent = task.name;
+  $currentTask.querySelector(".current-task__name").textContent = task.name;
+  $currentTask.querySelector(
+    ".current-task__current-session"
+  ).textContent = `#${task.id} - `;
+  $currentTask.querySelector(".current-task__category").textContent =
+    taskCategoryIcons[task.category];
 }
