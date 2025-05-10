@@ -29,7 +29,8 @@ function updateProgress({ completedCount, totalCount }) {
   const $progressWidget = document.querySelector(".progress-meter");
   const $progressValue = document.querySelector(".progress-meter__value");
 
-  const completedTasksPercentage = (completedCount / totalCount) * 100;
+  const completedTasksPercentage =
+    totalCount === 0 ? 0 : (completedCount / totalCount) * 100;
 
   $progressValue.textContent = `${Math.round(completedTasksPercentage)}%`;
 

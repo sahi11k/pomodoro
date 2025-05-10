@@ -1,110 +1,34 @@
+import {
+  getDataFromLocalStorage,
+  setItemInLocalStorage,
+} from "./localstorage.js";
+import { deepCopy } from "./utils.js";
+
 export default {
-  tasks: [
-    {
-      id: 1,
-      name: "Task 1 asdfasdfasdfasjfhaskfdhaksfhaksfh  ",
-      description: "Description 1",
-      category: "work",
-      sessions: 1,
-      completed: false,
-      completedSessions: 0,
-    },
-    {
-      id: 2,
-      name: "Task 2",
-      description: "Description 2",
-      category: "learn",
-      sessions: 2,
-      completed: false,
-    },
-    {
-      id: 1,
-      name: "Task 1",
-      description: "Description 1",
-      category: "work",
-      sessions: 1,
-      completed: true,
-    },
-    {
-      id: 2,
-      name: "Task 2",
-      description: "Description 2",
-      category: "learn",
-      sessions: 2,
-      completed: false,
-    },
-    {
-      id: 1,
-      name: "Task 1",
-      description: "Description 1",
-      category: "work",
-      sessions: 1,
-      completed: true,
-    },
-    {
-      id: 2,
-      name: "Task 2",
-      description: "Description 2",
-      category: "learn",
-      sessions: 2,
-      completed: false,
-    },
-    {
-      id: 1,
-      name: "Task 1",
-      description: "Description 1",
-      category: "work",
-      sessions: 1,
-      completed: true,
-    },
-    {
-      id: 2,
-      name: "Task 2",
-      description: "Description 2",
-      category: "learn",
-      sessions: 2,
-      completed: false,
-    },
-    {
-      id: 1,
-      name: "Task 1",
-      description: "Description 1",
-      category: "work",
-      sessions: 1,
-      completed: true,
-    },
-    {
-      id: 2,
-      name: "Task 2",
-      description: "Description 2",
-      category: "learn",
-      sessions: 2,
-      completed: false,
-    },
-    {
-      id: 1,
-      name: "Task 1",
-      description: "Description 1",
-      category: "work",
-      sessions: 1,
-      completed: true,
-    },
-    {
-      id: 2,
-      name: "Task 2",
-      description: "Description 2",
-      category: "learn",
-      sessions: 2,
-      completed: false,
-    },
-  ],
+  tasks: getDataFromLocalStorage(),
   getTasks() {
     return this.tasks;
   },
-  addTask(task) {
-    this.tasks.push(task);
+  getTaskById(id) {
+    const task = this.tasks.find((task) => task.id === id);
+    return deepCopy(task);
   },
-  removeTask(task) {
-    this.tasks = this.tasks.filter((t) => t !== task);
+  addTask(task) {
+    const allTasks = [...this.tasks, task];
+    this.updateTasks(allTasks);
+  },
+  updateTask(updatedTask) {
+    const updatedTasks = this.tasks.map((task) =>
+      task.id === updatedTask.id ? updatedTask : task
+    );
+    this.updateTasks(updatedTasks);
+  },
+  removeTask(id) {
+    const filteredTasks = this.tasks.filter((t) => t.id !== id);
+    this.updateTasks(filteredTasks);
+  },
+  updateTasks(tasks) {
+    this.tasks = tasks;
+    setItemInLocalStorage(this.tasks);
   },
 };

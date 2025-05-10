@@ -1,4 +1,4 @@
-import { icons, taskCategoryIcons } from "./constants.js";
+import { ICON_STOP, ICON_PLAY, taskCategoryIcons } from "./constants.js";
 
 let TASK_TIME = 25 * 60;
 let BREAK_TIME = 1 * 60;
@@ -56,14 +56,14 @@ function startTimer() {
   }, 1000);
 
   timerStarted = true;
-  $timerStartBtn.querySelector(".btn__icon").innerHTML = icons.stop;
+  $timerStartBtn.querySelector(".btn__icon").innerHTML = ICON_STOP;
   $timerStartBtn.querySelector(".btn__label").textContent = "Stop";
   $timerStartBtn.dataset.action = "stop";
 }
 
 function stopTimer() {
   clearInterval(intervalId);
-  $timerStartBtn.querySelector(".btn__icon").innerHTML = icons.play;
+  $timerStartBtn.querySelector(".btn__icon").innerHTML = ICON_PLAY;
   $timerStartBtn.querySelector(".btn__label").textContent = "Start";
   $timerStartBtn.dataset.action = "start";
 }
@@ -126,11 +126,16 @@ function getFormattedTime(seconds) {
   return `${minutes}:${remainingSeconds}`;
 }
 
-function updateCurrentTask(task) {
+function updateCurrentTask(task, activeTab) {
   const $currentTask = document.querySelector(".current-task");
+  if (!task) {
+    // handle current task here
+    return;
+  }
+
   $currentTask.querySelector(".current-task__name").textContent = task.name;
   $currentTask.querySelector(
-    ".current-task__current-session"
+    ".current-task__id"
   ).textContent = `#${task.id} - `;
   $currentTask.querySelector(".current-task__category").textContent =
     taskCategoryIcons[task.category];

@@ -3,3 +3,10 @@ export function getTemplate(innerHtml) {
   $template.innerHTML = innerHtml;
   return $template;
 }
+
+export function deepCopy(obj = {}) {
+  if (!window.structuredClone) {
+    return JSON.parse(JSON.stringify(obj));
+  }
+  return window.structuredClone(obj);
+}
