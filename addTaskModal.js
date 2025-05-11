@@ -1,4 +1,10 @@
-import { taskCategories, MIN_SESSIONS, MAX_SESSIONS } from "./constants.js";
+import {
+  taskCategories,
+  MIN_SESSIONS,
+  MAX_SESSIONS,
+  CREATE,
+  EDIT,
+} from "./constants.js";
 import store from "./store.js";
 import { getTemplate } from "./utils.js";
 import { renderTaskList } from "./tasks.js";
@@ -14,18 +20,21 @@ const $dialog = document.querySelector("#add-task-modal");
 const $taskCategoryList = document.querySelector(".category-list");
 const $taskCategoryTemplate = getTemplate(taskTemplate);
 const $form = document.querySelector("#add-task-form");
+const $sessionCount = document.querySelector(".session-count");
+const $submitBtn = document.querySelector(".modal__button--primary");
 
 let listenersAttached = false;
+let mode = CREATE;
+let taskId = null;
 
 export function initTaskModal() {
-  const $addTaskModalHandler = document.querySelector(
-    "#add-task-modal-handler"
-  );
-
-  $addTaskModalHandler.addEventListener("click", showModal);
+  attachEventListeners();
 }
 
-function showModal() {
+export function showModal(newMode, newTaskId) {
+  mode = newMode;
+  taskId = newTaskId;
+
   $modal.classList.add("show-modal");
   $dialog.showModal();
   renderTaskModal();
@@ -37,10 +46,29 @@ function closeModal() {
   $modal.classList.remove("show-modal");
 }
 
-export function renderTaskModal() {
+function renderTaskModal() {
+  if (mode === CREATE) {
+    renderCreateTaskModal();
+  } else if (mode === EDIT && taskId !== null) {
+    renderEditTaskModal();
+  }
+}
+
+function renderCreateTaskModal() {
   removeErrors();
   renderTaskCategoryList();
-  attachEventListeners();
+  $submitBtn.textContent = "Add Task";
+}
+
+function renderEditTaskModal() {
+  const task = store.getTaskById(taskId);
+  $form.querySelector("[name='task-name']").value = task.name;
+  $form.querySelector("[name='task-description']").value = task.description;
+  $form.dataset.category = task.category;
+  $form.dataset.sessions = task.sessions;
+  $sessionCount.textContent = task.sessions;
+  renderTaskCategoryList(task.category);
+  $submitBtn.textContent = "Update Task";
 }
 
 function attachEventListeners() {
@@ -48,13 +76,15 @@ function attachEventListeners() {
 
   if (!listenersAttached) {
     const $cancelBtn = document.querySelector(".modal__button--cancel");
-    const $submitBtn = document.querySelector(".modal__button--primary");
     const $sessionControls = document.querySelector(".session-controls");
 
     $taskCategoryList.addEventListener("click", onCategoryChange);
     $cancelBtn.addEventListener("click", closeModal);
-    $submitBtn.addEventListener("click", onSubmit);
     $sessionControls.addEventListener("click", onSessionChange);
+    $submitBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      onSubmit(mode, taskId);
+    });
     listenersAttached = true;
   }
 }
@@ -105,38 +135,65 @@ function onCategoryChange(e) {
   }
 }
 
+/**Session Functions */
+function onSessionChange(e) {
+  const $target = e.target;
+  if ($target.nodeName === "BUTTON") {
+    let totalSessions = Number.parseInt(
+      $form.getAttribute("data-sessions") || MIN_SESSIONS
+    );
+    totalSessions =
+      $target.id === "session-controls--decrement"
+        ? Math.max(MIN_SESSIONS, totalSessions - 1)
+        : Math.min(MAX_SESSIONS, totalSessions + 1);
+
+    $form.dataset.sessions = totalSessions;
+    $sessionCount.textContent = totalSessions;
+  }
+}
+
 /**Form Functions */
 
-function onSubmit(e) {
-  e.preventDefault();
-  const task = createTaskItem();
-  if (task) {
+function onSubmit(mode, taskId) {
+  const task = createTaskItem(mode, taskId);
+
+  if (!task) return;
+  if (mode === CREATE) {
     store.addTask(task);
-    renderTaskList(store.getTasks());
-    closeModal();
+  } else if (mode === EDIT) {
+    store.updateTask(task);
   }
+  renderTaskList(store.getTasks());
+  closeModal();
 }
 
 function resetForm() {
   $form.reset();
   $form.dataset.category = "";
   $form.dataset.sessions = MIN_SESSIONS;
-  document.querySelector(".session-count").textContent = MIN_SESSIONS;
+  $sessionCount.textContent = MIN_SESSIONS;
 }
 
-function createTaskItem() {
+function createTaskItem(mode, taskId = null) {
   removeErrors();
   let formData = new FormData($form);
   formData = Object.fromEntries(formData);
 
+  let defaultProps =
+    mode === CREATE
+      ? {
+          id: crypto.randomUUID(),
+          completed: false,
+          completedSessions: 0,
+        }
+      : store.getTaskById(taskId);
+
   const task = {
-    id: store.tasks.length + 1,
+    ...defaultProps,
     name: formData["task-name"],
     description: formData["task-description"],
     category: $form.dataset.category,
     sessions: Number.parseInt($form.dataset.sessions || MIN_SESSIONS),
-    completed: false,
-    completedSessions: 0,
   };
 
   const isValid = validateTask(task);
@@ -175,21 +232,4 @@ function removeErrors() {
   $errors.forEach((error) => {
     error.remove();
   });
-}
-
-/**Session Functions */
-function onSessionChange(e) {
-  const $target = e.target;
-  if ($target.nodeName === "BUTTON") {
-    let totalSessions = Number.parseInt(
-      $form.getAttribute("data-sessions") || MIN_SESSIONS
-    );
-    totalSessions =
-      $target.id === "session-controls--decrement"
-        ? Math.max(MIN_SESSIONS, totalSessions - 1)
-        : Math.min(MAX_SESSIONS, totalSessions + 1);
-
-    $form.dataset.sessions = totalSessions;
-    document.querySelector(".session-count").textContent = totalSessions;
-  }
 }

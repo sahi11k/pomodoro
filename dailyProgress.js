@@ -1,12 +1,14 @@
 export function initDailyProgress(store) {
-  const tasks = store.getTasks();
+  setCurrentDay();
+  renderDailyProgress(store.getTasks());
+}
 
+export function renderDailyProgress(tasks) {
   const totalCount = tasks.length;
   const completedCount = getCompletedTasksCount(tasks);
 
   updateTaskCompletionLabel({ completedCount, totalCount });
   updateProgress({ completedCount, totalCount });
-  setCurrentDay();
 }
 
 function updateTaskCompletionLabel({ completedCount, totalCount }) {

@@ -97,13 +97,13 @@ body {
 }
 
 .card {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.501);
   border-radius: calc(var(--padding) * 2);
   display: flex;
   flex-direction: column;
   padding: calc(var(--padding) * 3);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 
   .card__header {
     font-weight: 600;
@@ -132,6 +132,7 @@ body {
 .card--daily-progress {
   grid-column: 2 / 3;
   grid-row: 1 / 2;
+  position: relative;
 }
 
 .card--timer {
@@ -202,12 +203,6 @@ body {
         font-weight: 600;
         color: var(--light-grey);
       }
-
-      .task-item__details--completion-time {
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--light-grey);
-      }
     }
 
     .task-item__actions {
@@ -221,8 +216,18 @@ body {
         }
       }
 
+      .btn--icon[data-action="edit"] {
+        &:hover {
+          --svg-fill: var(--blue);
+        }
+      }
+
       .btn--icon[data-action="drag"] {
         cursor: grab;
+
+        &:active {
+          cursor: grabbing;
+        }
       }
     }
 
@@ -306,6 +311,8 @@ body {
         padding: calc(var(--padding) * 0.5) calc(var(--padding) * 2);
         border-radius: calc(var(--padding) * 3);
         font-weight: 600;
+        min-width: 32px;
+        text-align: center;
       }
     }
 
@@ -427,8 +434,7 @@ body {
   justify-content: center;
 
   .current-task__category {
-    font-size: 1.25rem;
-    margin-bottom: 6px;
+    margin-top: -4px;
   }
 
   .current-task__id {
@@ -521,6 +527,10 @@ body {
     font-size: 0.8rem;
     resize: vertical;
     max-height: 200px;
+
+    &:focus {
+      border-color: var(--light-grey);
+    }
   }
 
   .form__item[data-field="task-category"] {

@@ -1,9 +1,13 @@
 import { ICON_STOP, ICON_PLAY, taskCategoryIcons } from "./constants.js";
+import store from "./store.js";
 
 let TASK_TIME = 25 * 60;
 let BREAK_TIME = 1 * 60;
 
-let activeTab = "ongoing";
+let ONGOING_TAB = "ongoing";
+let BREAK_TAB = "break";
+
+let activeTab = ONGOING_TAB;
 let duration = TASK_TIME;
 let remainingTime = null;
 let intervalId;
@@ -13,11 +17,9 @@ const $tabNav = document.querySelector(".tab-nav");
 const $timerStartBtn = document.querySelector('[data-action="start"]');
 
 export function initTimer(store) {
-  const tasks = store.getTasks();
-  const currentTask = tasks.find((task) => !task.completed);
   const $timerControls = document.querySelector(".timer-controls");
 
-  updateCurrentTask(currentTask);
+  updateCurrentTask(store.getTasks());
   $tabNav.addEventListener("click", onTabChange);
   $timerControls.addEventListener("click", onTimerControlsClick);
 }
@@ -76,7 +78,7 @@ function resetTimer() {
 }
 
 function skipTimer() {
-  const inactiveTab = activeTab === "ongoing" ? "break" : "ongoing";
+  const inactiveTab = activeTab === ONGOING_TAB ? BREAK_TAB : ONGOING_TAB;
   const inActiveEl = document.querySelector(`[data-tab="${inactiveTab}"]`);
   onTabChange({ target: inActiveEl });
 }
@@ -86,9 +88,10 @@ function onTabChange(e) {
   if ($target) {
     clearInterval(intervalId);
     activeTab = $target.dataset.tab;
-    duration = activeTab === "ongoing" ? TASK_TIME : BREAK_TIME;
+    duration = activeTab === ONGOING_TAB ? TASK_TIME : BREAK_TIME;
     changeActiveTab(activeTab);
     updateTimer(duration);
+    updateCurrentTask(store.getTasks());
   }
 }
 
@@ -126,17 +129,30 @@ function getFormattedTime(seconds) {
   return `${minutes}:${remainingSeconds}`;
 }
 
-function updateCurrentTask(task, activeTab) {
+export function updateCurrentTask(tasks) {
+  const currentTask = tasks.find((task) => !task.completed);
   const $currentTask = document.querySelector(".current-task");
-  if (!task) {
-    // handle current task here
-    return;
+  let textContent = "";
+  let category = "";
+  let currentSession = "";
+
+  if (activeTab === BREAK_TAB) {
+    textContent = "Yay! Break Time";
+    category = "";
+    currentSession = "";
+  } else if (!currentTask || tasks.length === 0) {
+    textContent = "Time to Focus";
+    category = "";
+    currentSession = "";
+  } else {
+    textContent = currentTask.name;
+    category = currentTask.category;
+    currentSession = `#${currentTask.completedSessions + 1} -`;
   }
 
-  $currentTask.querySelector(".current-task__name").textContent = task.name;
-  $currentTask.querySelector(
-    ".current-task__id"
-  ).textContent = `#${task.id} - `;
+  $currentTask.querySelector(".current-task__name").textContent = textContent;
+  $currentTask.querySelector(".current-task__current-session").textContent =
+    currentSession;
   $currentTask.querySelector(".current-task__category").textContent =
-    taskCategoryIcons[task.category];
+    taskCategoryIcons[category];
 }

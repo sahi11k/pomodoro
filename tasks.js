@@ -1,5 +1,8 @@
-import { taskCategoryIcons } from "./constants.js";
+import { showModal } from "./addTaskModal.js";
+import { CREATE, EDIT, taskCategoryIcons } from "./constants.js";
+import { renderDailyProgress } from "./dailyProgress.js";
 import store from "./store.js";
+import { updateCurrentTask } from "./timer.js";
 import { getTemplate } from "./utils.js";
 
 const TASK_ITEM_TEMPLATE = `<li class="task-item" data-id="">
@@ -24,7 +27,7 @@ const TASK_ITEM_TEMPLATE = `<li class="task-item" data-id="">
                   <div class="task-item__details--name"></div>
                   <div class="task-item__details--progress-wrapper">
                     <div class="task-item__details--sessions"></div>
-                    <div class="task-item__details--completion-time"></div>
+                    
                   </div>
                 </div>
                 <div class="task-item__actions">
@@ -72,6 +75,7 @@ const TASK_ITEM_TEMPLATE = `<li class="task-item" data-id="">
 
 const $taskItemTemplate = getTemplate(TASK_ITEM_TEMPLATE);
 const $taskListEl = document.querySelector("#task-list");
+const $addTaskModalHandler = document.querySelector("#add-task-modal-handler");
 
 export function initTasks(store) {
   const taskItems = store.getTasks();
@@ -83,15 +87,25 @@ function attachEventListeners() {
   $taskListEl.addEventListener("mouseover", onHover);
   $taskListEl.addEventListener("mouseout", onHoverOut);
   $taskListEl.addEventListener("click", onTaskClick);
+  $taskListEl.addEventListener("dragstart", onDragStart);
+  $taskListEl.addEventListener("dragover", onDragOver);
+  $taskListEl.addEventListener("drop", onDrop);
+
+  $addTaskModalHandler.addEventListener("click", (e) => {
+    e.preventDefault();
+    showModal(CREATE);
+  });
 }
 
 function onHover(e) {
   const $taskItem = e.target.closest(".task-item");
+  if (!$taskItem) return;
   $taskItem.classList.add("hovered");
 }
 
 function onHoverOut(e) {
   const $taskItem = e.target.closest(".task-item");
+  if (!$taskItem) return;
   $taskItem.classList.remove("hovered");
 }
 
@@ -106,13 +120,10 @@ function onTaskClick(e) {
 
   switch (action) {
     case "edit":
-      onTaskEdit();
+      onTaskEdit($taskItem);
       break;
     case "delete":
       onTaskDelete($taskItem);
-      break;
-    case "drag":
-      onTaskDrag();
       break;
     case "complete":
       onTaskComplete($taskItem);
@@ -123,29 +134,58 @@ function onTaskClick(e) {
 }
 
 const onTaskEdit = ($taskItem) => {
-  console.log("edit");
+  const taskId = $taskItem.dataset.id;
+  showModal(EDIT, taskId);
 };
 
 const onTaskDelete = ($taskItem) => {
-  const taskId = parseInt($taskItem.dataset.id);
+  const taskId = $taskItem.dataset.id;
   store.removeTask(taskId);
   const tasks = store.getTasks();
   renderTaskList(tasks);
   // Todo : set current task , update timer and update progress
 };
 
-const onTaskDrag = () => {
-  console.log("drag");
-};
+function onDragStart(e) {
+  const $dragHandle = e.target.closest('[data-action="drag"]');
+  if (!$dragHandle) return;
+  const $taskItem = $dragHandle.closest(".task-item");
+  e.dataTransfer.setData("text/plain", $taskItem.dataset.id);
+  e.dataTransfer.setDragImage($taskItem, $taskItem.clientWidth, 0);
+}
+
+function onDragOver(e) {
+  e.preventDefault();
+}
+
+function onDrop(e) {
+  e.preventDefault();
+  const draggedTaskId = e.dataTransfer.getData("text/plain");
+  const $dropTarget = e.target.closest(".task-item");
+
+  if (!$dropTarget || draggedTaskId === $dropTarget.dataset.id) return;
+
+  const tasks = store.getTasks();
+  const draggedTaskIndex = tasks.findIndex((task) => task.id === draggedTaskId);
+  const dropTargetIndex = tasks.findIndex(
+    (task) => task.id === $dropTarget.dataset.id
+  );
+
+  const [draggedTask] = tasks.splice(draggedTaskIndex, 1);
+  tasks.splice(dropTargetIndex, 0, draggedTask);
+
+  store.updateTasks(tasks);
+  renderTaskList(tasks);
+}
 
 const onTaskComplete = ($taskItem) => {
-  const taskId = parseInt($taskItem.dataset.id);
+  const taskId = $taskItem.dataset.id;
   const task = store.getTaskById(taskId);
   task.completed = !task.completed;
+  task.completedSessions = task.completed ? task.sessions : 0;
   store.updateTask(task);
   const tasks = store.getTasks();
   renderTaskList(tasks);
-  // Todo : set current task , update timer and update progress
 };
 
 export function renderTaskList(tasks) {
@@ -159,16 +199,16 @@ export function renderTaskList(tasks) {
   $taskListEl.innerHTML = "";
   $emptyEl.classList.toggle("show", tasks.length === 0);
   $taskListEl.appendChild(taskListFragment);
+  updateCurrentTask(tasks);
+  renderDailyProgress(tasks);
 }
 
 function createTaskItem(task) {
   const $taskClone = $taskItemTemplate.content.cloneNode(true);
+  const $taskItem = $taskClone.querySelector(".task-item");
 
-  $taskClone.querySelector(".task-item").dataset.id = task.id;
-
-  $taskClone
-    .querySelector(".task-item")
-    .classList.toggle("active", task.completed);
+  $taskItem.dataset.id = task.id;
+  $taskItem.classList.toggle("active", task.completed);
 
   $taskClone.querySelector(".task-item__details--name").textContent = task.name;
 
@@ -180,8 +220,7 @@ function createTaskItem(task) {
       ? "Done"
       : `Sessions:  ${task.completedSessions}/${task.sessions}`;
 
-  $taskClone.querySelector(".task-item__details--completion-time").textContent =
-    task.completionTime;
+  $taskClone.querySelector('[data-action="drag"]').draggable = true;
 
   return $taskClone;
 }
