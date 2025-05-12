@@ -2,7 +2,7 @@ import { showModal } from "./addTaskModal.js";
 import { CREATE, EDIT, taskCategoryIcons } from "./constants.js";
 import { renderDailyProgress } from "./dailyProgress.js";
 import store from "./store.js";
-import { updateCurrentTask } from "./timer.js";
+import { resetTimer, updateCurrentTask } from "./timer.js";
 import { getTemplate } from "./utils.js";
 
 const TASK_ITEM_TEMPLATE = `<li class="task-item" data-id="">
@@ -201,6 +201,7 @@ export function renderTaskList(tasks) {
   $taskListEl.appendChild(taskListFragment);
   updateCurrentTask(tasks);
   renderDailyProgress(tasks);
+  resetTimer();
 }
 
 function createTaskItem(task) {
@@ -223,4 +224,15 @@ function createTaskItem(task) {
   $taskClone.querySelector('[data-action="drag"]').draggable = true;
 
   return $taskClone;
+}
+
+export function finishSession(taskId) {
+  const task = store.getTaskById(taskId);
+  task.completedSessions++;
+  if (task.completedSessions === task.sessions) {
+    task.completed = true;
+  }
+  store.updateTask(task);
+  const tasks = store.getTasks();
+  renderTaskList(tasks);
 }

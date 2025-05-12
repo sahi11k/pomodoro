@@ -85,6 +85,10 @@ function attachEventListeners() {
       e.preventDefault();
       onSubmit(mode, taskId);
     });
+    $form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      // onSubmit(mode, taskId);
+    });
     listenersAttached = true;
   }
 }
@@ -188,12 +192,15 @@ function createTaskItem(mode, taskId = null) {
         }
       : store.getTaskById(taskId);
 
+  const sessions = Number.parseInt($form.dataset.sessions || MIN_SESSIONS);
+
   const task = {
     ...defaultProps,
     name: formData["task-name"],
     description: formData["task-description"],
     category: $form.dataset.category,
-    sessions: Number.parseInt($form.dataset.sessions || MIN_SESSIONS),
+    sessions: sessions,
+    completed: defaultProps?.completedSessions >= sessions,
   };
 
   const isValid = validateTask(task);

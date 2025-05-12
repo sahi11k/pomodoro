@@ -14,6 +14,7 @@
 
   /* Variables */
   --padding: 6px;
+  --app-width: 70%;
 }
 
 body {
@@ -82,7 +83,7 @@ body {
 }
 
 .app__layout {
-  width: 70%;
+  width: var(--app-width);
   height: 75%;
   margin: 0 auto;
   display: grid;
@@ -102,8 +103,8 @@ body {
   display: flex;
   flex-direction: column;
   padding: calc(var(--padding) * 3);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
   .card__header {
     font-weight: 600;
@@ -627,6 +628,69 @@ body {
 
     .modal__button--primary {
       --background-color: var(--green);
+    }
+  }
+}
+
+.footer {
+  background-color: var(--dark-blue);
+  color: var(--white);
+  padding: calc(var(--padding) * 2);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  .footer__socials {
+    text-align: center;
+  }
+
+  .footer__socials-links {
+    display: flex;
+    gap: calc(var(--padding) * 3);
+
+    a {
+      border: 1.5px solid var(--white);
+      padding: var(--padding);
+      border-radius: 100%;
+    }
+  }
+
+  .footer__copyright {
+    color: var(--light-grey);
+    margin-top: 12px;
+    font-size: 0.9rem;
+  }
+}
+
+.about {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 1.2rem;
+  padding: 24px 0;
+  .about__content {
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  .about__title {
+    color: var(--dark-blue);
+    font-size: 2.5rem;
+    text-align: center;
+    margin: 32px 0;
+  }
+
+  .about__description {
+    color: var(--dark-blue);
+    font-weight: 400;
+    text-align: justify;
+    line-height: 1.8;
+  }
+
+  .about__list {
+    margin-bottom: 32px;
+    color: var(--dark-blue);
+    li {
+      line-height: 1.8;
     }
   }
 }

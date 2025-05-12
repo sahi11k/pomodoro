@@ -1,8 +1,9 @@
 import { ICON_STOP, ICON_PLAY, taskCategoryIcons } from "./constants.js";
 import store from "./store.js";
+import { finishSession } from "./tasks.js";
 
-let TASK_TIME = 25 * 60;
-let BREAK_TIME = 1 * 60;
+let TASK_TIME = 1 * 10;
+let BREAK_TIME = 1 * 6;
 
 let ONGOING_TAB = "ongoing";
 let BREAK_TAB = "break";
@@ -12,6 +13,7 @@ let duration = TASK_TIME;
 let remainingTime = null;
 let intervalId;
 let timerStarted = false;
+let currentTaskId = null;
 
 const $tabNav = document.querySelector(".tab-nav");
 const $timerStartBtn = document.querySelector('[data-action="start"]');
@@ -70,7 +72,7 @@ function stopTimer() {
   $timerStartBtn.dataset.action = "start";
 }
 
-function resetTimer() {
+export function resetTimer() {
   if (!timerStarted) return;
   stopTimer();
   updateTimer(duration);
@@ -78,9 +80,13 @@ function resetTimer() {
 }
 
 function skipTimer() {
-  const inactiveTab = activeTab === ONGOING_TAB ? BREAK_TAB : ONGOING_TAB;
-  const inActiveEl = document.querySelector(`[data-tab="${inactiveTab}"]`);
+  const inActiveEl = getInactiveTab();
   onTabChange({ target: inActiveEl });
+}
+
+function getInactiveTab() {
+  const inactiveTab = activeTab === ONGOING_TAB ? BREAK_TAB : ONGOING_TAB;
+  return document.querySelector(`[data-tab="${inactiveTab}"]`);
 }
 
 function onTabChange(e) {
@@ -92,6 +98,7 @@ function onTabChange(e) {
     changeActiveTab(activeTab);
     updateTimer(duration);
     updateCurrentTask(store.getTasks());
+    resetTimer();
   }
 }
 
@@ -104,6 +111,11 @@ function changeActiveTab(activeTab) {
 function updateTimer(remainingTime) {
   if (remainingTime < 0) {
     clearInterval(intervalId);
+    if (activeTab === ONGOING_TAB) {
+      finishSession(currentTaskId);
+    }
+    const inActiveEl = getInactiveTab();
+    onTabChange({ target: inActiveEl });
     return;
   }
 
@@ -132,6 +144,7 @@ function getFormattedTime(seconds) {
 export function updateCurrentTask(tasks) {
   const currentTask = tasks.find((task) => !task.completed);
   const $currentTask = document.querySelector(".current-task");
+  currentTaskId = currentTask?.id;
   let textContent = "";
   let category = "";
   let currentSession = "";

@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="app">
-      <div class="app__layout">
+    <main class="app">
+      <section class="app__layout">
         <div class="card card--daily-progress">
           <div class="card__header">Daily Progress</div>
           <div class="card__body">
@@ -161,7 +161,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </section>
       <div class="modal">
         <div class="modal__overlay">
           <dialog id="add-task-modal" class="modal__content">
@@ -218,7 +218,91 @@
           </dialog>
         </div>
       </div>
-    </div>
+    </main>
+
+    <section class="about">
+      <div class="about__content">
+        <h1 class="about__title">What is the Pomodoro Technique?</h1>
+        <div class="about__description">
+          The Pomodoro Technique, created by
+          <strong>Francesco Cirillo</strong>, is a time management method that
+          helps you stay focused and productive. Named after the tomato-shaped
+          kitchen timer (<b>"pomodoro"</b> in <i>Italian</i>) that Cirillo used
+          as a university student, this technique breaks work into focused
+          25-minute intervals called pomodori. Each pomodoro is followed by a
+          5-minute break, and after completing four pomodori, you take a longer
+          15-30 minute break. This structured approach helps prevent burnout
+          while maintaining concentration throughout your work or study
+          sessions.
+          <cite>
+            —
+            <a
+              href="https://en.wikipedia.org/wiki/Pomodoro_Technique"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Wikipedia</a
+            >
+          </cite>
+        </div>
+        <h1 class="about__title">How to use the Pomodoro Timer?</h1>
+        <ol class="about__list">
+          <li>Add a task you want to complete.</li>
+          <li>Set the Pomodoro timer (typically 25 minutes).</li>
+          <li>Work on the task.</li>
+          <li>
+            End work when the timer rings and take a short break (typically 5 to
+            10 minutes).
+          </li>
+          <li>
+            Go back to Step 2 and repeat until you complete four pomodori
+            <i>(plural of pomodoro)</i>.
+          </li>
+          <li>
+            After four pomodori are done, take a long break (typically 15 to 20
+            minutes) instead of a short break.
+          </li>
+          <li>Once the long break is finished, return to step 2.</li>
+        </ol>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="footer__socials">
+        <p>get to know me better</p>
+        <p class="footer__socials-links">
+          <a
+            href="mailto:sahil511kumar@gmail.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="assets/mail.svg" alt="mail" />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/sahi11k/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="assets/linkedin.svg" alt="linkedin" />
+          </a>
+          <a
+            href="https://github.com/sahi11k/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="assets/github.svg" alt="github" />
+          </a>
+          <a
+            href="https://x.com/sahi11k/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="assets/twitter.svg" alt="twitter" />
+          </a>
+        </p>
+      </div>
+      <div class="footer__copyright">
+        <div>copyright &copy; <span id="current-year"></span> Sahil Kumar</div>
+      </div>
+    </footer>
     <script type="module" src="./script.js"></script>
   </body>
 </html>
