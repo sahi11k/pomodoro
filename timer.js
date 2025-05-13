@@ -2,8 +2,9 @@ import { ICON_STOP, ICON_PLAY, taskCategoryIcons } from "./constants.js";
 import store from "./store.js";
 import { finishSession } from "./tasks.js";
 
-let TASK_TIME = 1 * 10;
-let BREAK_TIME = 1 * 6;
+let TASK_TIME = 25 * 60;
+let SHORT_BREAK_TIME = 5 * 60;
+let LONG_BREAK_TIME = 15 * 60;
 
 let ONGOING_TAB = "ongoing";
 let BREAK_TAB = "break";
@@ -14,6 +15,8 @@ let remainingTime = null;
 let intervalId;
 let timerStarted = false;
 let currentTaskId = null;
+let pomodoroCount = 0;
+let isLongBreak = false;
 
 const $tabNav = document.querySelector(".tab-nav");
 const $timerStartBtn = document.querySelector('[data-action="start"]');
@@ -94,7 +97,12 @@ function onTabChange(e) {
   if ($target) {
     clearInterval(intervalId);
     activeTab = $target.dataset.tab;
-    duration = activeTab === ONGOING_TAB ? TASK_TIME : BREAK_TIME;
+    duration =
+      activeTab === ONGOING_TAB
+        ? TASK_TIME
+        : isLongBreak
+        ? LONG_BREAK_TIME
+        : SHORT_BREAK_TIME;
     changeActiveTab(activeTab);
     updateTimer(duration);
     updateCurrentTask(store.getTasks());
@@ -113,6 +121,12 @@ function updateTimer(remainingTime) {
     clearInterval(intervalId);
     if (activeTab === ONGOING_TAB) {
       finishSession(currentTaskId);
+      pomodoroCount++;
+      if (pomodoroCount % 4 === 0) {
+        isLongBreak = true;
+      } else {
+        isLongBreak = false;
+      }
     }
     const inActiveEl = getInactiveTab();
     onTabChange({ target: inActiveEl });
@@ -128,6 +142,9 @@ function updateTimer(remainingTime) {
     "--progress",
     getProgressPercentage(remainingTime)
   );
+  document.title = `Pomodoro | ${
+    activeTab === ONGOING_TAB ? "🍅" : "💤"
+  } : ${formattedTime}`;
 }
 
 function getProgressPercentage(remainingTime) {

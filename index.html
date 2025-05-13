@@ -6,7 +6,17 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <div class="loading-overlay">
+      <div class="loading-spinner"></div>
+    </div>
     <main class="app">
+      <div class="app__background">
+        <img
+          class="app__background-img"
+          src="./assets/background.jpg"
+          alt="background"
+        />
+      </div>
       <section class="app__layout">
         <div class="card card--daily-progress">
           <div class="card__header">Daily Progress</div>
@@ -303,6 +313,29 @@
         <div>copyright &copy; <span id="current-year"></span> Sahil Kumar</div>
       </div>
     </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const loadingOverlay = document.querySelector(".loading-overlay");
+        const app = document.querySelector(".app");
+        const backgroundImg = document.querySelector(".app__background-img");
+
+        Promise.all([
+          new Promise((resolve) => {
+            backgroundImg.complete
+              ? resolve()
+              : (backgroundImg.onload = resolve);
+          }),
+          new Promise((resolve) => setTimeout(resolve, 500)),
+        ])
+          .catch((error) => {
+            console.error("Error during loading:", error);
+          })
+          .finally(() => {
+            loadingOverlay.style.display = "none";
+            app.classList.add("loaded");
+          });
+      });
+    </script>
     <script type="module" src="./script.js"></script>
   </body>
 </html>
