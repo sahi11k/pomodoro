@@ -2,9 +2,16 @@ import { ICON_STOP, ICON_PLAY, taskCategoryIcons } from "./constants.js";
 import store from "./store.js";
 import { finishSession } from "./tasks.js";
 
+// TIMER
 let TASK_TIME = 25 * 60;
 let SHORT_BREAK_TIME = 5 * 60;
 let LONG_BREAK_TIME = 15 * 60;
+
+// AUDIO
+const timerAudio = new Audio("./assets/timer.mp3");
+const timerFinishedAudio = new Audio("./assets/timerEnd.mp3");
+const timerStartAudio = new Audio("./assets/timerStart.mp3");
+timerAudio.loop = true;
 
 let ONGOING_TAB = "ongoing";
 let BREAK_TAB = "break";
@@ -62,7 +69,12 @@ function startTimer() {
     updateTimer(remainingTime);
   }, 1000);
 
+  setTimeout(() => {
+    timerAudio.play();
+  }, 1000);
+
   timerStarted = true;
+  timerStartAudio.play();
   $timerStartBtn.querySelector(".btn__icon").innerHTML = ICON_STOP;
   $timerStartBtn.querySelector(".btn__label").textContent = "Stop";
   $timerStartBtn.dataset.action = "stop";
@@ -73,6 +85,10 @@ function stopTimer() {
   $timerStartBtn.querySelector(".btn__icon").innerHTML = ICON_PLAY;
   $timerStartBtn.querySelector(".btn__label").textContent = "Start";
   $timerStartBtn.dataset.action = "start";
+  timerAudio.pause();
+  timerStartAudio.pause();
+  timerAudio.currentTime = 0;
+  timerStartAudio.currentTime = 0;
 }
 
 export function resetTimer() {
@@ -119,8 +135,13 @@ function changeActiveTab(activeTab) {
 function updateTimer(remainingTime) {
   if (remainingTime < 0) {
     clearInterval(intervalId);
+    timerAudio.pause();
+    timerStartAudio.pause();
+    timerAudio.currentTime = 0;
+    timerStartAudio.currentTime = 0;
+    timerFinishedAudio.play();
+    finishSession(currentTaskId);
     if (activeTab === ONGOING_TAB) {
-      finishSession(currentTaskId);
       pomodoroCount++;
       if (pomodoroCount % 4 === 0) {
         isLongBreak = true;

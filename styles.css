@@ -10,23 +10,17 @@
   --blue: #297afe;
   --purple: #725dff;
   --dark-blue: #10151f;
-  --dark-blue-700: rgba(16, 21, 31, 0.3);
+  --faded-black: rgba(0, 0, 0, 0.5);
+  /* --faded-white: rgba(255, 255, 255, 0.05); */
 
   /* Variables */
   --padding: 6px;
-
-  /* Breakpoints */
-  --bp-sm: 640px;
-  --bp-md: 768px;
-  --bp-lg: 1024px;
-  --bp-xl: 1280px;
-  --bp-2xl: 1536px;
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--white);
 }
 
@@ -93,7 +87,7 @@ body {
 .loading-spinner {
   width: 48px;
   height: 48px;
-  border: 5px solid var(--dark-blue-700);
+  border: 5px solid var(--faded-black);
   border-bottom-color: var(--dark-blue);
   border-radius: 50%;
   animation: rotation 1s linear infinite;
@@ -108,41 +102,53 @@ body {
   }
 }
 
+.app__background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+
+  .app__background-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
 .app {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  min-height: 100vh;
-  opacity: 0;
   transition: opacity 0.3s ease;
-  position: relative;
+  width: min(100%, 1080px);
+  margin-inline: auto;
+  gap: calc(var(--padding) * 2);
+  padding: calc(var(--padding) * 2);
+  box-sizing: border-box;
+
+  @media screen and (min-width: 768px) {
+    gap: calc(var(--padding) * 3);
+    padding: calc(var(--padding) * 3);
+  }
+
+  @media screen and (min-width: 1024px) {
+    gap: calc(var(--padding) * 4);
+    padding: calc(var(--padding) * 4);
+  }
 
   &.loaded {
     opacity: 1;
   }
-
-  .app__background {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-
-    .app__background-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-    }
-  }
 }
 
 .app__layout {
-  width: min(85%, 1080px);
-  height: 90%;
+  width: 100%;
   margin: 0 auto;
   display: grid;
-  gap: 1.5em;
+  gap: calc(var(--padding) * 2);
   grid-template-columns: 1fr;
-  grid-template-rows: 3fr 4fr;
+  grid-template-rows: 320px 1fr;
+  max-height: 100vh;
 
   & > * {
     min-height: 0;
@@ -152,11 +158,18 @@ body {
   @media screen and (min-width: 768px) {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 130px 1fr;
+    max-height: 600px;
+    gap: calc(var(--padding) * 3);
+  }
+
+  @media screen and (min-width: 1024px) {
+    max-height: 650px;
+    gap: calc(var(--padding) * 4);
   }
 }
 
 .card {
-  background-color: rgba(0, 0, 0, 0.501);
+  background-color: var(--faded-black);
   border-radius: calc(var(--padding) * 2);
   display: flex;
   flex-direction: column;
@@ -406,14 +419,14 @@ body {
     border-radius: 100%;
     background: conic-gradient(
       var(--green) var(--progress),
-      var(--dark-blue) 0deg
+      var(--faded-black) 0deg
     );
 
     .progress-meter__value {
       height: calc(var(--size) - 16px);
       width: calc(var(--size) - 16px);
       border-radius: 50%;
-      background: var(--dark-blue);
+      background: #030609;
       font-size: 1.25rem;
       font-weight: 600;
       display: flex;
@@ -426,7 +439,7 @@ body {
 .tab-nav {
   display: flex;
   border-radius: calc(var(--padding) * 6);
-  background-color: var(--dark-blue-700);
+  background-color: var(--faded-black);
 
   .tab-nav__item {
     --svg-fill: var(--light-grey);
@@ -440,7 +453,6 @@ body {
     &.active {
       --svg-fill: var(--blue);
       --text-color: var(--white);
-      background-color: var(--dark-blue);
 
       &:hover {
         opacity: 1;
@@ -476,7 +488,7 @@ body {
       width: 80%;
       height: calc(var(--padding) * 2);
       border-radius: calc(var(--padding) * 4);
-      background-color: var(--dark-blue);
+      background-color: var(--faded-black);
       position: relative;
       display: none;
 
@@ -505,7 +517,7 @@ body {
     display: flex;
   }
 
-  background-color: var(--dark-blue-700);
+  background-color: var(--faded-black);
   border-radius: calc(var(--padding) * 2);
   align-items: center;
   gap: var(--padding);
@@ -536,7 +548,7 @@ body {
   gap: 24px;
 
   .btn--icon {
-    --background-color: var(--dark-blue-700);
+    --background-color: var(--faded-black);
     --btn-size: var(--size);
     --svg-size: calc(var(--size) * 0.5);
   }
@@ -554,13 +566,14 @@ body {
   width: 100%;
   height: 100%;
   display: none;
+  z-index: 1;
 
   &.show-modal {
     display: block;
   }
 
   .modal__overlay {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: var(--faded-black);
     height: 100%;
     width: 100%;
   }
@@ -711,14 +724,16 @@ body {
   }
 }
 
-.footer {
-  background-color: var(--dark-blue);
+.app__footer {
   color: var(--white);
   padding: calc(var(--padding) * 2);
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 200px;
 
   .footer__socials {
     text-align: center;
@@ -742,34 +757,56 @@ body {
   }
 }
 
-.about {
+.app__about {
   font-size: clamp(1rem, 1.5vw, 1.2rem);
-
-  padding: 24px 0;
-  .about__content {
-    margin-inline: auto;
-    width: min(85%, 800px);
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   .about__title {
-    color: var(--dark-blue);
     font-size: clamp(1.5rem, 4vw, 2.5rem);
     text-align: center;
-    margin: 32px 0;
   }
 
   .about__description {
-    color: var(--dark-blue);
     font-weight: 400;
     text-align: justify;
     line-height: 1.8;
   }
 
   .about__list {
-    margin-bottom: 32px;
-    color: var(--dark-blue);
+    padding-left: calc(var(--padding) * 3);
     li {
       line-height: 1.8;
     }
+  }
+
+  @media screen and (min-width: 768px) {
+    .about__list {
+      margin-bottom: 2em;
+    }
+
+    padding: 2em;
+  }
+}
+
+.app__header {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  font-style: italic;
+  justify-content: center;
+  gap: 0.5em;
+
+  .app__title {
+    margin: calc(var(--padding) / 2);
+    font-size: clamp(1.75rem, 2.5vw, 3rem);
+  }
+
+  .app__tagline {
+    color: var(--light-grey);
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
   }
 }

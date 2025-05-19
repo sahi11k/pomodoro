@@ -38,12 +38,14 @@ export function showModal(newMode, newTaskId) {
   $modal.classList.add("show-modal");
   $dialog.showModal();
   renderTaskModal();
+  document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
   resetForm();
   $dialog.close();
   $modal.classList.remove("show-modal");
+  document.body.style.overflow = "auto";
 }
 
 function renderTaskModal() {
