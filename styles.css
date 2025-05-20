@@ -472,12 +472,12 @@ body {
   gap: 32px;
 
   .timer {
-    align-items: center;
     flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    gap: 32px;
+    /* gap: 32px; */
 
     .timer__value {
       font-size: clamp(5rem, 12vw, 9rem);
@@ -489,12 +489,14 @@ body {
     .timer__progress-bar {
       --progress: 0;
 
-      width: 80%;
+      width: 85%;
       height: calc(var(--padding) * 2);
       border-radius: calc(var(--padding) * 4);
       background-color: var(--faded-black);
       position: relative;
       display: none;
+
+      /* display: none; */
 
       @media screen and (min-width: 768px) {
         display: block;
