@@ -342,7 +342,7 @@ body {
   display: none;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  min-height: 100%;
 
   &.show {
     display: flex;
