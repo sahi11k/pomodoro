@@ -221,6 +221,10 @@ body {
   }
 }
 
+.task-list-container {
+  min-height: 250px !important;
+}
+
 .task-list {
   list-style-type: none;
   padding: 0;
